@@ -36,6 +36,20 @@ TEST(object_not_equals) {
     return 0;
 }
 
+long fibbonacci(x) {
+    if (x < 3)
+    {
+        return 1L;
+    } else {
+        return fibbonacci(x - 1) + fibbonacci(x - 2);
+    }
+}
+
+TEST(fibonnaci) {
+    assert(fibbonacci(40) == 102334155L);
+    return 0;
+}
+
 TEST_LIST_START
     TEST_ENTRY(number_equals)
     TEST_ENTRY(string_equals)
@@ -43,6 +57,7 @@ TEST_LIST_START
     TEST_ENTRY(string_not_equals)
     TEST_ENTRY(object_equals)
     TEST_ENTRY(object_not_equals)
+    TEST_ENTRY(fibonnaci)
 TEST_LIST_END
 
 int main(int argc, char const *argv[])

@@ -22,6 +22,9 @@ typedef struct {
     {NULL, NULL},                       \
     };
 
+extern test_entry_t TESTS[];
+extern char *FILENAME;
+
 int run_all_tests(void);
 int run_test(test_entry_t *test);
 

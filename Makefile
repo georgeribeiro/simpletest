@@ -7,4 +7,7 @@ simpletest.o: simpletest.c simpletest.h
 	gcc -c simpletest.c
 
 clean:
-	@rm -rf *~ *.o main
+	@rm -rf *~ \#* *.o main
+
+test: all
+	./main

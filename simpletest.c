@@ -3,7 +3,7 @@
 #include <string.h>
 #include <stdio.h>
 
-int run(int verbose) {
+static int run(int verbose) {
   test_entry_t *test;
   int count = 0;
   time_t start, end;

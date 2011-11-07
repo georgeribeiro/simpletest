@@ -1,43 +1,31 @@
-#include "simpletest.h"
-#include <time.h>
-#include <string.h>
-#include <stdio.h>
+#ifndef _SIMPLETEST_H
+#define _SIMPLETEST_H
 
-int run(int verbose) {
-  test_entry_t *test;
-  int count = 0;
-  time_t start, end;
-  
-  if(verbose)
-    fprintf(stdout, "\n%s\n", FILENAME);
-  
-  start = time(NULL);
-  for(test = (test_entry_t*)&TESTS; test->name; test++)  {
-    test->main();
-    if (verbose)
-      fprintf(stdout, "✔ %s\n", test->name);
-    count++;
-  }
-  end = time(NULL);
-  
-  fprintf(stdout, "\nOK: %d assertion%s (%.0fs)\n", count, count > 1 ? "s" : "", difftime(end, start));
-  
-  return 0;
-}
+#include <assert.h>
 
-int run_all_tests(int argc, const char *argv[]) {
-  int i;
-  
-  if (argc == 1) {
-    return run(1);
-  }
-  for(i = 1; i < argc; i++) {
-    if (strcmp(argv[i], "--no-verbose") == 0) {
-      return run(0);
-    }
-    else {
-      fprintf(stderr, "Unknown option: %s\n", argv[i]);
-      return 1;
-    }
-  }
-}
+typedef struct {
+    char *name;
+    int (*main)();
+} test_entry_t;
+
+#define TEST(name)                      \
+    int run_test_##name(void)
+
+#define TEST_LIST_START                 \
+    char *FILENAME = __FILE__;          \
+    test_entry_t TESTS[] = {
+
+#define TEST_ENTRY(name)                \
+    {#name, &run_test_##name},
+
+#define TEST_LIST_END                   \
+    {NULL, NULL},                       \
+    };
+
+extern test_entry_t TESTS[];
+extern char *FILENAME;
+
+int run_all_tests(void);
+int run_test(test_entry_t *test);
+
+#endif

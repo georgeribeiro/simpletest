@@ -10,6 +10,10 @@ TEST(string_equals) {
   assert(strcmp("1", "1") == 0);
 }
 
+TEST(string_equals_failed) {
+  assert(strcmp("1", "2") == 0);
+}
+
 TEST(float_equals) {
   assert(1.0 == 1.0);
 }
@@ -41,9 +45,15 @@ TEST(fibonnaci) {
   assert(fibbonacci(40) == 102334155L);
 }
 
+TEST(go_failed) {
+  assert(0);
+}
+
 TEST_LIST_START
+TEST_ENTRY(go_failed)
 TEST_ENTRY(number_equals)
 TEST_ENTRY(string_equals)
+TEST_ENTRY(string_equals_failed)
 TEST_ENTRY(float_equals)
 TEST_ENTRY(string_not_equals)
 TEST_ENTRY(object_equals)

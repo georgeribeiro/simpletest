@@ -18,7 +18,6 @@ static int run_process(void (*main)())
   else if (pid == 0) {
     main();
     exit(0);
-    return -1;
   }
   w = waitpid(pid, &status, 0);
   if (w == -1) {

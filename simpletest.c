@@ -27,7 +27,7 @@ static int run_process(void (*main)())
   return status;
 }
 
-static int run(int verbose) 
+static int run(int verbose, int abort_failed)
 {
   test_entry_t *test;
   int count = 0, passed = 0, failed = 0;
@@ -39,14 +39,20 @@ static int run(int verbose)
   
   start = time(NULL);
   for(test = (test_entry_t*)&TESTS; test->name; test++)  {
-    success = run_process(test->main);
-    if (success == 0) {
-      passed++;
+    if (abort_failed) {
+      test->main();
+      if (verbose)
+        fprintf(stdout, "✔ %s\n", test->name);
     } else {
-      failed++;
+      success = run_process(test->main);
+      if (success == 0) {
+        passed++;
+      } else {
+        failed++;
+      }
+      if (verbose)
+        fprintf(stdout, "%s %s\n", success == 0 ? "✔" : "✖", test->name);
     }
-    if (verbose)
-      fprintf(stdout, "%s %s\n", success == 0 ? "✔" : "✖", test->name);
     count++;
   }
   end = time(NULL);
@@ -61,17 +67,22 @@ static int run(int verbose)
 
 int run_all_tests(int argc, const char *argv[]) {
   int i;
+  int verbose = 1, abort_failed = 0;
   
   if (argc == 1) {
-    return run(1);
+    return run(verbose, abort_failed);
   }
   for(i = 1; i < argc; i++) {
-    if (strcmp(argv[i], "--no-verbose") == 0) {
-      return run(0);
+    if (strcmp(argv[i], "-n") == 0 ||strcmp(argv[i], "--no-verbose") == 0) {
+      verbose = 0;
+    }
+    else if (strcmp(argv[i], "-a") == 0 || strcmp(argv[i], "--abort-failed") == 0) {
+      abort_failed = 1;
     }
     else {
       fprintf(stderr, "Unknown option: %s\n", argv[i]);
       return 1;
     }
   }
+  return run(verbose, abort_failed);
 }

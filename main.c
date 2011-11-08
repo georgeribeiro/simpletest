@@ -11,7 +11,7 @@ TEST(string_equals) {
 }
 
 TEST(string_equals_failed) {
-  assert(strcmp("1", "2") == 0);
+  assert(strcmp("2", "2") == 0);
 }
 
 TEST(float_equals) {
@@ -46,7 +46,7 @@ TEST(fibonnaci) {
 }
 
 TEST(go_failed) {
-  assert(0);
+  assert(1);
 }
 
 TEST_LIST_START

@@ -25,6 +25,15 @@ typedef struct {
   {0, 0},			  \
     };
 
+#define assertEquals(a, b)			\
+  assert(a == b)
+
+#define assertStrEquals(a, b)			\
+  assert(strcmp(a, b) == 0)
+
+#define assertNULL(a)				\
+  assert(a == NULL)
+
 extern test_entry_t TESTS[];
 extern char *FILENAME;
 

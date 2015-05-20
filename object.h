@@ -14,7 +14,7 @@ Object * new(const char *name, int id) {
     return obj;
 }
 
-equals(Object *obj1, Object *obj2) {
+int equals(Object *obj1, Object *obj2) {
     return strcmp(obj1->name, obj2->name) == 0 &&
         obj1->id == obj2->id;
 }
